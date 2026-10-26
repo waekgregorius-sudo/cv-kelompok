@@ -114,7 +114,7 @@ data_anggota = [
 </ul>"""
     },
     {
-        "nama": "Nela Nyft", 
+        "nama": "Nela Nur Fajrianti", 
         "role": "Mobile Developer", 
         "email": "nela@gmail.com", 
         "wa": "081234567893", 
