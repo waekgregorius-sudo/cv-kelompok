@@ -56,7 +56,7 @@ data_anggota = [
     },
     {
         "id": "nela",
-        "nama": "Nela Nyft", "role": "Front-End Developer (Konten)", "foto": "assets/nela.jpg", "cv": "assets/cv_nela.pdf", "email": "nela@gmail.com", "wa": "081234567893",
+        "nama": "Nela Nurfajrianti", "role": "Front-End Developer (Konten)", "foto": "assets/nela.jpg", "cv": "assets/cv_nela.pdf", "email": "nela@gmail.com", "wa": "081234567893",
         "about": "Mahasiswa Sistem Informasi yang antusias dalam pengembangan aplikasi web. Bertanggung jawab atas komponen skills, experience, dan project cards pada E-CV ini.",
         "skills": [
             {"name": "Flutter", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg"},
