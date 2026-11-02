@@ -87,8 +87,9 @@ proyek_bersama = {
 }
 
 # ==========================================
-# 2. FUNGSI PENAJAM FOTO & LOGO FOOTER
+# 2. FUNGSI PENAJAM FOTO & LOGO FOOTER (DENGAN CACHE)
 # ==========================================
+@st.cache_data
 def get_optimized_base64(image_path, size=(240, 240)):
     if not Path(image_path).exists(): return None
     try:
@@ -134,32 +135,20 @@ st.markdown(f"""
         color: #94a3b8 !important;
     }}
 
-    /* HEADER BARU YANG LEBIH KEREN */
+    /* HEADER */
     .main-header {{ text-align: center; padding: 50px 0 30px 0; }}
     .header-badge {{
-        display: inline-block;
-        background: rgba(37, 99, 235, 0.15);
-        color: #60A5FA;
-        border: 1px solid rgba(37, 99, 235, 0.3);
-        padding: 6px 16px;
-        border-radius: 50px;
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        letter-spacing: 1px;
+        display: inline-block; background: rgba(37, 99, 235, 0.15); color: #60A5FA;
+        border: 1px solid rgba(37, 99, 235, 0.3); padding: 6px 16px; border-radius: 50px;
+        font-size: 14px; font-weight: 600; margin-bottom: 15px; letter-spacing: 1px;
     }}
     .main-header h1 {{
         background: linear-gradient(135deg, #f8fafc 0%, #60A5FA 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 3.5rem;
-        font-weight: 800;
-        letter-spacing: 2px;
-        margin: 0;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        font-size: 3.5rem; font-weight: 800; letter-spacing: 2px; margin: 0;
     }}
     .header-divider {{
-        width: 150px; height: 4px; 
-        background: linear-gradient(90deg, transparent, #3B82F6, transparent);
+        width: 150px; height: 4px; background: linear-gradient(90deg, transparent, #3B82F6, transparent);
         margin: 15px auto 0 auto; border-radius: 2px;
     }}
 
@@ -219,11 +208,16 @@ st.markdown(f"""
     .skill-card img {{ width: 20px; height: 20px; object-fit: contain; }}
     .skill-card span {{ color: #cbd5e1 !important; font-size: 13px; font-weight: 600; }}
 
-    /* FOOTER CUSTOM */
-    .custom-footer {{
-        text-align: center; margin-top: 50px; padding-top: 25px;
-        border-top: 1px solid rgba(255,255,255,0.05);
+    /* CSS 3 KARTU BAWAH (RESPONSIF) */
+    .bottom-cards-container {{ display: flex; gap: 20px; align-items: stretch; margin-top: 20px; flex-wrap: wrap; }}
+    .bottom-card {{ 
+        flex: 1 1 280px; min-width: 280px; background-color: #0f172a; border: 1px solid rgba(255,255,255,0.05); 
+        border-radius: 12px; padding: 30px; display: flex; flex-direction: column; 
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box;
     }}
+
+    /* FOOTER CUSTOM */
+    .custom-footer {{ text-align: center; margin-top: 50px; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); }}
     .custom-footer p {{ color: #64748b; font-size: 13px; margin: 5px 0; }}
     .custom-footer .credit {{ color: #94a3b8; font-weight: 500; }}
 
@@ -231,11 +225,13 @@ st.markdown(f"""
     a {{ color: #60A5FA !important; text-decoration: none !important; transition: 0.2s; font-weight: 500;}}
     a:hover {{ text-decoration: underline !important; color: #3B82F6 !important; }}
 
+    /* RESPONSIVE MOBILE */
     @media (max-width: 768px) {{
         div[data-testid="stHorizontalBlock"] {{ flex-direction: column !important; gap: 20px !important; }}
         div[data-testid="column"] {{ width: 100% !important; min-width: 100% !important; }}
         .main-header h1 {{ font-size: 2.2rem; }}
         div[data-testid="stVerticalBlockBorderWrapper"] {{ padding: 25px !important; }}
+        .bottom-card {{ flex: 1 1 100%; min-width: 100%; }}
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -244,7 +240,6 @@ st.markdown(f"""
 # 4. TAMPILAN BERANDA
 # ==========================================
 if st.session_state.page == 'home':
-    # Header Baru dengan Badge & Gradient Text
     st.markdown("""
     <div class="main-header">
         <span class="header-badge">✨ E-CV Kelompok Digital Kreatif</span>
@@ -299,9 +294,9 @@ if st.session_state.page == 'home':
     st.markdown("<h2 style='text-align: center; color: #f8fafc; margin-bottom: 30px; font-weight: 700;'>LEBIH DEKAT DENGAN KAMI</h2>", unsafe_allow_html=True)
     
     link_web = "https://gregorius-portfolio.streamlit.app/"
-    qr_url = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={link_web}"
+    qr_url = f"https://quickchart.io/qr?text={link_web}&size=150&margin=1"
     
-    html_kartu_bawah = f"""<div style="display: flex; gap: 20px; align-items: stretch; margin-top: 20px;"><div style="flex: 1; min-height: 320px; background-color: #0f172a; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 30px; display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"><h3 style="color: #f8fafc; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; font-size: 18px;">🏛️ Tentang Kami</h3><p style="color: #94a3b8; font-size: 14px; line-height: 1.6; flex-grow: 1;">Kami adalah kelompok mahasiswa Sistem Informasi UBSI yang berdedikasi untuk menciptakan solusi digital yang inovatif, kreatif, dan fungsional.</p><p style="font-size: 12px; color: #60A5FA; margin-bottom: 0; font-weight: 700;">Mata Kuliah: Digital Kreatif</p></div><div style="flex: 1; min-height: 320px; background-color: #0f172a; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 30px; display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"><h3 style="color: #f8fafc; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; font-size: 18px;">🚀 Proyek Bersama</h3><p style="color: #94a3b8; font-size: 14px; line-height: 1.6; flex-grow: 1;">{proyek_bersama['deskripsi']}</p><div><span style="display: inline-block; background: rgba(37, 99, 235, 0.15); color: #60A5FA; padding: 4px 12px; border-radius: 6px; font-size: 11px; margin: 2px; border: 1px solid rgba(37, 99, 235, 0.3); font-weight: 600;">Python</span><span style="display: inline-block; background: rgba(37, 99, 235, 0.15); color: #60A5FA; padding: 4px 12px; border-radius: 6px; font-size: 11px; margin: 2px; border: 1px solid rgba(37, 99, 235, 0.3); font-weight: 600;">Streamlit</span><span style="display: inline-block; background: rgba(37, 99, 235, 0.15); color: #60A5FA; padding: 4px 12px; border-radius: 6px; font-size: 11px; margin: 2px; border: 1px solid rgba(37, 99, 235, 0.3); font-weight: 600;">GitHub</span></div></div><div style="flex: 1; min-height: 320px; background-color: #0f172a; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 30px; display: flex; flex-direction: column; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"><h3 style="color: #f8fafc; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; font-size: 18px;">📱 Scan Tautan</h3><p style="color: #94a3b8; font-size: 14px; line-height: 1.6; flex-grow: 1;">Buka portofolio ini di HP Anda dengan memindai QR Code di bawah ini.</p><div style="display: flex; justify-content: center; margin-top: 10px;"><img src="{qr_url}" style="width: 120px; height: 120px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); padding: 5px; background: white;"></div></div></div>"""
+    html_kartu_bawah = f"""<div class="bottom-cards-container"><div class="bottom-card"><h3 style="color: #f8fafc; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; font-size: 18px;">🏛️ Tentang Kami</h3><p style="color: #94a3b8; font-size: 14px; line-height: 1.6; flex-grow: 1;">Kami adalah kelompok mahasiswa Sistem Informasi UBSI yang berdedikasi untuk menciptakan solusi digital yang inovatif, kreatif, dan fungsional.</p><p style="font-size: 12px; color: #60A5FA; margin-bottom: 0; font-weight: 700;">Mata Kuliah: Digital Kreatif</p></div><div class="bottom-card"><h3 style="color: #f8fafc; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; font-size: 18px;">🚀 Proyek Bersama</h3><p style="color: #94a3b8; font-size: 14px; line-height: 1.6; flex-grow: 1;">{proyek_bersama['deskripsi']}</p><div><span style="display: inline-block; background: rgba(37, 99, 235, 0.15); color: #60A5FA; padding: 4px 12px; border-radius: 6px; font-size: 11px; margin: 2px; border: 1px solid rgba(37, 99, 235, 0.3); font-weight: 600;">Python</span><span style="display: inline-block; background: rgba(37, 99, 235, 0.15); color: #60A5FA; padding: 4px 12px; border-radius: 6px; font-size: 11px; margin: 2px; border: 1px solid rgba(37, 99, 235, 0.3); font-weight: 600;">Streamlit</span><span style="display: inline-block; background: rgba(37, 99, 235, 0.15); color: #60A5FA; padding: 4px 12px; border-radius: 6px; font-size: 11px; margin: 2px; border: 1px solid rgba(37, 99, 235, 0.3); font-weight: 600;">GitHub</span></div></div><div class="bottom-card" style="text-align: center;"><h3 style="color: #f8fafc; margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; font-size: 18px;">📱 Scan Tautan</h3><p style="color: #94a3b8; font-size: 14px; line-height: 1.6; flex-grow: 1;">Buka portofolio ini di HP Anda dengan memindai QR Code di bawah ini.</p><div style="display: flex; justify-content: center; margin-top: 10px;"><a href="{link_web}" target="_blank"><img src="{qr_url}" style="width: 120px; height: 120px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); padding: 5px; background: white;"></a></div></div></div>"""
     st.markdown(html_kartu_bawah, unsafe_allow_html=True)
     
     # FOOTER BARU (HANYA COPYRIGHT)
